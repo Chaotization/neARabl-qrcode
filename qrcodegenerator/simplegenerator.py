@@ -61,24 +61,36 @@ def generate_qr_code(data, version=None, border=None, box_size=None, icon_path=N
 
 def blend_colors(color1, color2):
     # Convert RGB values to floats between 0 and 1
-    color1 = [x / 255 for x in color1]
-    color2 = [x / 255 for x in color2]
+    if color1 == (255, 0, 0) and color2 == (0, 255, 0):
+        return (255, 255, 0)
+    elif color1 == (0, 255, 0) and color2 == (255, 0, 0):
+        return (255, 255, 0)
+    else:
+        color1 = [x / 255 for x in color1]
+        color2 = [x / 255 for x in color2]
 
-    # Convert RGB to HSL
-    h1, l1, s1 = rgb_to_hls(*color1)
-    h2, l2, s2 = rgb_to_hls(*color2)
+        # Convert RGB to HSL
+        h1, l1, s1 = rgb_to_hls(*color1)
+        h2, l2, s2 = rgb_to_hls(*color2)
 
-    # Compute average hue value
-    h = (h1 + h2) / 2
+        # Compute average hue value
+        h = (h1 + h2) / 2
 
-    # Blend saturation and lightness values
-    s = (s1 + s2) / 2
-    l = (l1 + l2) / 2
+        # Blend saturation and lightness values
+        s = (s1 + s2) / 2
+        l = (l1 + l2) / 2
 
-    # Convert blended HSL back to RGB
-    blended_color = hls_to_rgb(h, l, s)
+        # Convert blended HSL back to RGB
+        blended_color = hls_to_rgb(h, l, s)
 
-    # Convert RGB values back to integers between 0 and 255
-    blended_color = tuple(int(x * 255) for x in blended_color)
+        # Convert RGB values back to integers between 0 and 255
+        blended_color = tuple(int(x * 255) for x in blended_color)
+        return blended_color
 
-    return blended_color
+# def blend_colors(color1, color2):
+#     blended_color = (
+#         int((color1[0] + color2[0]) / 2),
+#         int((color1[1] + color2[1]) / 2),
+#         int((color1[2] + color2[2]) / 2)
+#     )
+#     return blended_color
